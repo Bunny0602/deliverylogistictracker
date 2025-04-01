@@ -165,7 +165,7 @@ namespace DeliverylogisticTracker
 
                 if (!hasActiveOrders)
                 {
-                    Console.WriteLine("|                                                              No Active Deliveries Found                                                             |");
+                    Console.WriteLine("|                                                              No Active Deliveries Found                                                               |");
                 }
                 Console.WriteLine("+-------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
 
@@ -182,7 +182,7 @@ namespace DeliverylogisticTracker
                 Console.WriteLine("+----------------------------------------------------------------------------------------------------------------------------------------------------------------------+");
                 Console.WriteLine("|                                                                     Completed Deliveries                                                                             |");
                 Console.WriteLine("+-----+------------+-----------------------+-------------+-----------------------+---------------+------------------------------------------------+--------+-----------+");
-                Console.WriteLine("| ID  |  Product   |  Pickup Location      |  Sender     |  Dropoff Location     |  Receiver    |  Route Description                              |  Fee   |  Status   |");
+                Console.WriteLine("| ID  | Product    | Pickup Location       | Sender      | Dropoff Location      | Receiver      | Route Description                              |  Fee   |  Status   |");
                 Console.WriteLine("+-----+------------+-----------------------+-------------+-----------------------+---------------+------------------------------------------------+--------+-----------+");
 
                 bool hasCompletedOrders = false;

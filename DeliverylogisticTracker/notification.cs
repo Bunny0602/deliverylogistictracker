@@ -18,7 +18,7 @@ namespace DeliverylogisticTracker
                 mail.To.Add(recipientEmail);
                 mail.Subject = subject;
                 mail.Body = body;
-                mail.IsBodyHtml = false;
+                mail.IsBodyHtml = true;
 
                 SmtpClient smtpClient = new SmtpClient("smtp.gmail.com")
                 {

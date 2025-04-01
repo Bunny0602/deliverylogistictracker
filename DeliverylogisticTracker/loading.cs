@@ -9,12 +9,12 @@ namespace DeliverylogisticTracker
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("\n══════════════════════════════════════════");
-            Console.WriteLine("║       🚛 Logistics Tracker System       ║");
-            Console.WriteLine("══════════════════════════════════════════");
+            Console.WriteLine("════════════════════════════════════════════");
+            Console.WriteLine("║       Logistics Tracker System           ║");
+            Console.WriteLine("════════════════════════════════════════════");
             Console.ResetColor();
 
-            Console.WriteLine("\nInitializing system... Please wait.\n");
+            Console.WriteLine("\nLoading System!!!\n");
 
             string loadingBar = "--------------------";
             char[] barArray = loadingBar.ToCharArray();
@@ -25,11 +25,11 @@ namespace DeliverylogisticTracker
             {
                 barArray[i] = '█'; 
                 Console.Write(barArray[i]);
-                Thread.Sleep(500); 
+                Thread.Sleep(130); 
             }
 
-            Console.Write("] Complete");
-            Thread.Sleep(1500);
+            Console.Write("]");
+            Thread.Sleep(700);
             Console.Clear();
         }
 

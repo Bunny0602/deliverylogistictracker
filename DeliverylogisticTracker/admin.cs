@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using MySql.Data.MySqlClient;
 
 namespace DeliverylogisticTracker
@@ -24,9 +25,9 @@ namespace DeliverylogisticTracker
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     MySqlDataReader reader = cmd.ExecuteReader();
 
-                    Console.WriteLine("+-------------------------------------------------------------------------------------------------------------------------------------------------------+");
-                    Console.WriteLine("| ID  | User Email           | Product       | Pickup      | Pickup Name     | Dropoff        | Dropoff Name    |      Driver         |   Status        |");
-                    Console.WriteLine("+-------------------------------------------------------------------------------------------------------------------------------------------------------+");
+                    Console.WriteLine("+----------------------------------------------------------------------------------------------------------------------------------------------------------+");
+                    Console.WriteLine("| ID  | User Email           | Product       | Pickup      | Pickup Name     | Dropoff        | Dropoff Name    | Driver                 | Status          |");
+                    Console.WriteLine("+----------------------------------------------------------------------------------------------------------------------------------------------------------+");
 
                     bool hasOrders = false;
                     while (reader.Read())
@@ -36,17 +37,17 @@ namespace DeliverylogisticTracker
                         string pickupName = reader["pickup_name"] == DBNull.Value ? "N/A" : reader["pickup_name"].ToString();
                         string dropoffName = reader["dropoff_name"] == DBNull.Value ? "N/A" : reader["dropoff_name"].ToString();
 
-                        Console.WriteLine($"| {reader["id"],-3} | {reader["user_email"],-20} | {reader["product"],-13} | {reader["pickup_location"],-11} | {pickupName,-15} | {reader["dropoff_location"],-14} | {dropoffName,-15} | {driver,-19} | {reader["status"],-15} |");
+                        Console.WriteLine($"| {reader["id"],-3} | {reader["user_email"],-20} | {reader["product"],-13} | {reader["pickup_location"],-11} | {pickupName,-15} | {reader["dropoff_location"],-14} | {dropoffName,-15} | {driver,-23} | {reader["status"],-14} |");
                     }
 
                     reader.Close();
 
                     if (!hasOrders)
                     {
-                        Console.WriteLine("|                                                                          No Orders Found                                                          |");
+                        Console.WriteLine("|                                                                          No Orders Found                                                             |");
                     }
 
-                    Console.WriteLine("+-------------------------------------------------------------------------------------------------------------------------------------------------------+");
+                    Console.WriteLine("+----------------------------------------------------------------------------------------------------------------------------------------------------------+");
                 }
             }
             catch (Exception ex)
@@ -72,7 +73,7 @@ namespace DeliverylogisticTracker
                     MySqlDataReader reader = cmd.ExecuteReader();
 
                     Console.WriteLine("+------+----------------------+------------------------------+------------+");
-                    Console.WriteLine("|  ID  |        Name         |           Email              |   Status   |");
+                    Console.WriteLine("|  ID  |        Name          |           Email              |   Status   |");
                     Console.WriteLine("+------+----------------------+------------------------------+------------+");
 
                     bool hasPersonnel = false;
@@ -84,10 +85,10 @@ namespace DeliverylogisticTracker
 
                     if (!hasPersonnel)
                     {
-                        Console.WriteLine("|                        No personnel found.                        |");
+                        Console.WriteLine("|                        No personnel found.                          |");
                     }
 
-                    Console.WriteLine("+--------------------------------------------------------------------+");
+                    Console.WriteLine("+-------------------------------------------------------------------------+");
 
                     reader.Close();
                 }
@@ -104,6 +105,8 @@ namespace DeliverylogisticTracker
         public static void createPersonnel()
         {
             string adminEmail = "bunnygreat0@gmail.com";
+
+            Console.WriteLine("Create the account personnel!!");
 
             Console.Clear();
             Console.Write("Enter your Email (For Notification): ");
@@ -148,25 +151,81 @@ namespace DeliverylogisticTracker
 
                 Console.WriteLine("Personnel created successfully!");
 
-                string subject = "New Personnel Account Created ";
-                string body = "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-                            + " ██████╗ ██████╗ ███╗   ██╗ ██████╗ ██████╗  █████╗ ████████╗███████╗ \n"
-                            + "██╔════╝██╔═══██╗████╗  ██║██╔════╝ ██╔══██╗██╔══██╗╚══██╔══╝██╔════╝ \n"
-                            + "██║     ██║   ██║██╔██╗ ██║██║  ███╗██████╔╝███████║   ██║   ███████╗ \n"
-                            + "██║     ██║   ██║██║╚██╗██║██║   ██║██╔══██╗██╔══██║   ██║   ╚════██║ \n"
-                            + "╚██████╗╚██████╔╝██║ ╚████║╚██████╔╝██║  ██║██║  ██║   ██║   ███████║ \n"
-                            + " ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚══════╝ \n"
-                            + "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
-                            + $"🎉 **Congratulations, {name}!** 🎉\n\n"
-                            + "You have been successfully added as personnel in our system.\n\n"
-                            + "🔹 Name: " + name + "\n"
-                            + "🔹 Email: " + email + "\n"
-                            + "🔹 Password: " + password + "\n\n"
-                            + "Please keep your credentials secure and do not share them with anyone.\n\n"
-                            + "Welcome to the team!\n\n"
-                            + "**Best Regards,**\n"
-                            + "**Your Logistics Team**";
+                string subject = "🎉 New Personnel Account Created 🎉";
 
+                string body = $@"
+                                <html>
+                                <head>
+                                      <style>
+                                          body {{
+                                              font-family: Arial, sans-serif;
+                                              background-color: #F0E3CA;
+                                              padding: 20px;
+                                              text-align: center;
+                                          }}
+                                          .container {{
+                                              max-width: 800px;
+                                              margin: auto;
+                                              padding: 15px;
+                                              border-radius: 10px;
+                                              background-color: #F0E3CA;
+                                              max-height: 400px;
+                                          }}
+                                          .header {{
+                                              display: flex;
+                                              align-items: center;
+                                              padding: 10px;
+                                          }}
+                                           .header img {{
+                                              width: 40px;
+                                              height: 40px;
+                                              margin-right: 10px;
+                                          }}
+                                          .content-box {{
+                                              background-color: #F3EBD7;
+                                              padding: 20px;
+                                              border-radius: 20px;
+                                              text-align: left;
+                                              max-width: 600px;
+                                              margin: auto;
+                                          }}
+                                          .logo-center {{
+                                              display: block;
+                                              margin: 0 auto 10px;
+                                              width: 40px;
+                                              height: 40px;
+                                          }}
+                                          .footer {{
+                                              font-size: 9px;
+                                              color: #555;
+                                              margin-top: 10px;
+                                              text-align: left;
+                                              padding-left: 20px;
+                                          }}
+                                      </style>
+                                </head>
+                                <body>
+                                    <div class='container'>
+                                        <div class='header'>
+                                            <img src='https://drive.google.com/uc?export=view&id=12_sG-vxVf6cJ4wJQ2zCfdgxu-QxuAUy5' alt='#'>
+                                            <p style='font-size: 12px; font-weight: bold; margin: 0;'>New Personnel Account Created</p>
+                                        </div>
+                
+                                        <div class='content-box'>
+                                            <img src='https://drive.google.com/uc?export=view&id=12_sG-vxVf6cJ4wJQ2zCfdgxu-QxuAUy5' class='logo-center' alt='#'>
+                    
+                                            <p><strong>🎉 Welcome, {name}! 🎉</strong></p>
+                                            <p>You are now registered as personnel in our system.</p>
+                                            <p>📛 <strong>Name:</strong> {name}</p>
+                                            <p>📧 <strong>Email:</strong> {email}</p>
+                                            <p>🔑 <strong>Password:</strong> {password}</p>
+                                            <p>Please keep your credentials secure.</p>
+                                        </div>
+                
+                                        <p class='footer'>Best Regards,<br>Your Logistics Team</p>
+                                    </div>
+                                </body>
+                                </html>";
 
                 notification.sendNotification(adminEmail, subject, body);
 
@@ -189,8 +248,7 @@ namespace DeliverylogisticTracker
 
             string adminEmail = "bunnygreat0@gmail.com";
 
-            Console.Write("\nEnter your Email (Legit Email for notification): ");
-            string notifEmail = Console.ReadLine();
+            Console.WriteLine("Choose who you want to update!!");
 
             Console.Write("Enter Personnel ID to update: ");
             if (!int.TryParse(Console.ReadLine(), out int id))
@@ -198,6 +256,12 @@ namespace DeliverylogisticTracker
                 Console.WriteLine("Invalid ID. Operation cancelled.");
                 return;
             }
+
+            Console.Write("\nEnter your Email (For Notification): ");
+            string notifEmail = Console.ReadLine();
+
+            Console.Write("Enter new Name (or press Enter to keep current name): ");
+            string newName = Console.ReadLine();
 
             Console.Write("Enter new Email (or press Enter to keep current email): ");
             string newEmail = Console.ReadLine();
@@ -209,12 +273,12 @@ namespace DeliverylogisticTracker
             {
                 conn.Open();
 
-                string checkQuery = "SELECT email FROM personnel WHERE id = @Id";
+                string checkQuery = "SELECT name, email FROM personnel WHERE id = @Id";
                 MySqlCommand checkCmd = new MySqlCommand(checkQuery, conn);
                 checkCmd.Parameters.AddWithValue("@Id", id);
-                object result = checkCmd.ExecuteScalar();
+                MySqlDataReader reader = checkCmd.ExecuteReader();
 
-                if (result == null)
+                if (!reader.Read())
                 {
                     Console.WriteLine("Personnel not found.");
                     Console.WriteLine("Press any key to continue...");
@@ -222,10 +286,12 @@ namespace DeliverylogisticTracker
                     return;
                 }
 
-                string oldEmail = result.ToString();
-                string userEmail = string.IsNullOrEmpty(newEmail) ? oldEmail : newEmail;
+                string oldName = reader["name"].ToString();
+                string oldEmail = reader["email"].ToString();
+                reader.Close();
 
                 List<string> updates = new List<string>();
+                if (!string.IsNullOrEmpty(newName)) updates.Add("name = @NewName");
                 if (!string.IsNullOrEmpty(newEmail)) updates.Add("email = @NewEmail");
                 if (!string.IsNullOrEmpty(newPassword)) updates.Add("password = @NewPassword");
 
@@ -240,35 +306,93 @@ namespace DeliverylogisticTracker
                 string updateQuery = $"UPDATE personnel SET {string.Join(", ", updates)} WHERE id = @Id";
                 MySqlCommand updateCmd = new MySqlCommand(updateQuery, conn);
                 updateCmd.Parameters.AddWithValue("@Id", id);
+                if (!string.IsNullOrEmpty(newName)) updateCmd.Parameters.AddWithValue("@NewName", newName);
                 if (!string.IsNullOrEmpty(newEmail)) updateCmd.Parameters.AddWithValue("@NewEmail", newEmail);
                 if (!string.IsNullOrEmpty(newPassword)) updateCmd.Parameters.AddWithValue("@NewPassword", newPassword);
 
                 updateCmd.ExecuteNonQuery();
                 Console.WriteLine("Personnel updated successfully.");
 
-                string subject = "Personnel Account Updated ";
-                string body = $"Your personnel details have been updated:\n\n"
-                            + "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-                            + " █    ██  ██▓███  ▓█████▄  ▄▄▄     ▄▄▄█████▓▓█████ ▓█████▄  \r\n"
-                            + " ██  ▓██▒▓██░  ██▒▒██▀ ██▌▒████▄   ▓  ██▒ ▓▒▓█   ▀ ▒██▀ ██▌\r\n"
-                            + "▓██  ▒██░▓██░ ██▓▒░██   █▌▒██  ▀█▄ ▒ ▓██░ ▒░▒███   ░██   █▌\r\n"
-                            + "▓▓█  ░██░▒██▄█▓▒ ▒░▓█▄   ▌░██▄▄▄▄██░ ▓██▓ ░ ▒▓█  ▄ ░▓█▄   ▌\r\n"
-                            + "▒▒█████▓ ▒██▒ ░  ░░▒████▓  ▓█   ▓██▒ ▒██▒ ░ ░▒████▒░▒████▓  \r\n"
-                            + "░▒▓▒ ▒ ▒ ▒▓▒░ ░  ░ ▒▒▓  ▒  ▒▒   ▓▒█░ ▒ ░░   ░░ ▒░ ░ ▒▒▓  ▒  \r\n"
-                            + "░░▒░ ░ ░ ░▒ ░      ░ ▒  ▒   ▒   ▒▒ ░   ░     ░ ░  ░ ░ ▒  ▒  \r\n"
-                            + " ░░░ ░ ░ ░░        ░ ░  ░   ░   ▒    ░         ░    ░ ░  ░ \r\n"
-                            + "   ░                 ░          ░  ░           ░  ░   ░       \r\n"
-                            + "                   ░                                ░      \r\n"
-                            + "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
-                            + $"Email: {userEmail}\n"
-                            + (!string.IsNullOrEmpty(newPassword) ? $"New Password: {newPassword}\n" : "")
-                            + "Please keep your credentials secure.\n\nThank you.";
+                string htmlBody = $@"
+                                    <html>
+                                    <head>
+                                    <style>
+                                          body {{
+                                              font-family: Arial, sans-serif;
+                                              background-color: #E5E0E0;
+                                              padding: 20px;
+                                              text-align: center;
+                                          }}
+                                          .container {{
+                                              max-width: 800px;
+                                              margin: auto;
+                                              padding: 15px;
+                                              border-radius: 10px;
+                                              background-color: #E1D9C7;
+                                              max-height: 400px;
+                                          }}
+                                          .header {{
+                                              display: flex;
+                                              align-items: center;
+                                              padding: 10px;
+                                          }}
+                                           .header img {{
+                                              width: 40px;
+                                              height: 40px;
+                                              margin-right: 10px;
+                                          }}
+                                          .content-box {{
+                                              background-color: #F3EBD7;
+                                              padding: 20px;
+                                              border-radius: 20px;
+                                              text-align: left;
+                                              max-width: 600px;
+                                              margin: auto;
+                                          }}
+                                          .logo-center {{
+                                              display: block;
+                                              margin: 0 auto 10px;
+                                              width: 40px;
+                                              height: 40px;
+                                          }}
+                                          .footer {{
+                                              font-size: 9px;
+                                              color: #555;
+                                              margin-top: 10px;
+                                              text-align: left;
+                                              padding-left: 20px;
+                                          }}
+                                     </style>
+                                    </head>
+                                    <body>
+                                        <div class='container'>
+                                            <div class='header'>
+                                                <img src='https://drive.google.com/uc?export=view&id=12_sG-vxVf6cJ4wJQ2zCfdgxu-QxuAUy5' alt='#'>
+                                                <p style='font-size: 12px; font-weight: bold; margin: 0;'>Personnel Account Updated</p>
+                                            </div>
 
+                                            <div class='content-box'>
+                                            <img src='https://drive.google.com/uc?export=view&id=12_sG-vxVf6cJ4wJQ2zCfdgxu-QxuAUy5' class='logo-center' alt='#'>
 
-                notification.sendNotification(adminEmail, subject, body);
+                                                <p>Your personnel details have been updated:</p>
+                                                <p><strong>📛 Name:</strong> {(string.IsNullOrEmpty(newName) ? oldName : newName)}</p>
+                                                <p><strong>📧 Email:</strong> {(string.IsNullOrEmpty(newEmail) ? oldEmail : newEmail)}</p>
+                                                {(string.IsNullOrEmpty(newPassword) ? "" : $"<p><strong>🔑 New Password:</strong> {newPassword}</p>")}
+                                                <p>Please keep your credentials secure.</p>
+                                                <p>Thank you.</p>
+                                            </div>
+
+                                            <div class='footer'>
+                                                <p><strong>Best Regards,</strong><br>Your Logistics Team</p>
+                                            </div>
+                                        </div>
+                                    </body>
+                                    </html>";
+
+                notification.sendNotification(adminEmail, "Personnel Account Updated", htmlBody);
                 if (!string.IsNullOrEmpty(notifEmail))
                 {
-                    notification.sendNotification(notifEmail, subject, body);
+                    notification.sendNotification(notifEmail, "Personnel Account Updated", htmlBody);
                 }
             }
 
@@ -277,11 +401,14 @@ namespace DeliverylogisticTracker
         }
 
 
-        public static void deletePersonell()
+
+        public static void deletePersonnel()
         {
             viewAllpersonnel();
 
             string adminEmail = "bunnygreat0@gmail.com";
+
+            Console.WriteLine("Choose who you want to delete!!");
 
             Console.Write("\nEnter your Email (Legit Email for notification): ");
             string notifEmail = Console.ReadLine();
@@ -312,7 +439,6 @@ namespace DeliverylogisticTracker
 
                 string email = result.ToString();
 
-                
                 Console.Write($"Are you sure you want to delete {email}? (yes/no): ");
                 string confirm = Console.ReadLine().ToLower();
                 if (confirm != "yes")
@@ -321,7 +447,6 @@ namespace DeliverylogisticTracker
                     return;
                 }
 
-                
                 string deleteQuery = "DELETE FROM personnel WHERE id = @Id";
                 MySqlCommand deleteCmd = new MySqlCommand(deleteQuery, conn);
                 deleteCmd.Parameters.AddWithValue("@Id", id);
@@ -329,28 +454,82 @@ namespace DeliverylogisticTracker
 
                 Console.WriteLine("Personnel deleted successfully.");
 
-                string subject = "Personnel Account Deleted ";
-                string body = "Your personnel account has been removed from the system.\n\n"
-                            + "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-                            + "▓█████▄ ▓█████  ██▓    ▓█████▄▄▄█████▓▓█████ ▓█████▄  \r\n"
-                            + "▒██▀ ██▌▓█   ▀ ▓██▒    ▓█   ▀▓  ██▒ ▓▒▓█   ▀ ▒██▀ ██▌ \r\n"
-                            + "░██   █▌▒███   ▒██░    ▒███  ▒ ▓██░ ▒░▒███   ░██   █▌ \r\n"
-                            + "░▓█▄   ▌▒▓█  ▄ ▒██░    ▒▓█  ▄░ ▓██▓ ░ ▒▓█  ▄ ░▓█▄   ▌ \r\n"
-                            + "░▒████▓ ░▒████▒░██████▒░▒████▒ ▒██▒ ░ ░▒████▒░▒████▓  \r\n"
-                            + " ▒▒▓  ▒ ░░ ▒░ ░░ ▒░▓  ░░░ ▒░ ░ ▒ ░░   ░░ ▒░ ░ ▒▒▓  ▒   \r\n"
-                            + " ░ ▒  ▒  ░ ░  ░░ ░ ▒  ░ ░ ░  ░   ░     ░ ░  ░ ░ ▒  ▒   \r\n"
-                            + " ░ ░  ░    ░     ░ ░      ░    ░         ░    ░ ░  ░  \r\n"
-                            + "   ░       ░  ░    ░  ░   ░  ░           ░  ░   ░    \r\n"
-                            + " ░                                            ░      \r\n"
-                            + "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
-                                            + $"Email: {email}\n\n"
-                            + "If this was a mistake, please contact the administrator.\n\n"
-                            + "Thank you.";
+                string subject = "Personnel Account Deleted";
 
-                notification.sendNotification(adminEmail, subject, body);
+                string htmlBody = $@"
+                                    <html>
+                                    <head>
+                                        <style>
+                                            body {{
+                                                padding: 20px; 
+                                                text-align: center;
+                                            }}
+                                            .container {{
+                                                max-width: 800px;
+                                                margin: auto;
+                                                padding: 15px;
+                                                border-radius: 10px;
+                                                background-color: #F0E3CA;
+                                                max-height: 400px;
+                                            }}
+                                            .header {{
+                                                display: flex;
+                                                align-items: center;
+                                                padding: 10px;
+                                            }}
+                                            .header img {{
+                                                width: 40px;
+                                                height: 40px;
+                                                margin-right: 10px;
+                                            }}
+                                            .content-box {{
+                                                background-color: #F3EBD7;
+                                                padding: 20px;
+                                                border-radius: 20px;
+                                                text-align: left;
+                                                max-width: 600px;
+                                                margin: auto;
+                                            }}
+                                            .logo-center {{
+                                                display: block;
+                                                margin: 0 auto 10px;
+                                                width: 40px;
+                                                height: 40px;
+                                            }}
+                                            .footer {{
+                                                font-size: 9px;
+                                                color: #555;
+                                                margin-top: 10px;
+                                                text-align: left;
+                                                padding-left: 20px;
+                                            }}
+                                        </style>
+                                    </head>
+                                        <div class='container'>
+                                            <div class='header'>
+                                                <img src='https://drive.google.com/uc?export=view&id=12_sG-vxVf6cJ4wJQ2zCfdgxu-QxuAUy5' alt='#'>
+                                                <p style='font-size: 12px; font-weight: bold; margin: 0;'>Personnel Account Deleted</p>
+                                            </div>
+
+                                            <div class='content-box'>
+                                                <img src='https://drive.google.com/uc?export=view&id=12_sG-vxVf6cJ4wJQ2zCfdgxu-QxuAUy5' class='logo-center' alt='#'>
+                                                <p>Your personnel account has been removed from the system.</p>
+                                                <p><strong>Email:</strong> {email}</p>
+                                                <p>If this was a mistake, please contact the administrator.</p>
+                                                <p>Thank you.</p>
+                                            </div>
+
+                                            <div class='footer'>
+                                                <p><strong>Best Regards,</strong><br>Your Logistics Team</p>
+                                            </div>
+                                        </div>
+                                    </body>
+                                    </html>";
+
+                notification.sendNotification(adminEmail, subject, htmlBody);
                 if (!string.IsNullOrEmpty(notifEmail))
                 {
-                    notification.sendNotification(notifEmail, subject, body);
+                    notification.sendNotification(notifEmail, subject, htmlBody);
                 }
             }
 

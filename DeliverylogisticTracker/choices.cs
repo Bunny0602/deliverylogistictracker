@@ -71,7 +71,7 @@ namespace DeliverylogisticTracker
                         admin.updatePersonnel();
                         break;
                     case "5":
-                        admin.deletePersonell();
+                        admin.deletePersonnel();
                         break;
                     case "6":
                         return;
