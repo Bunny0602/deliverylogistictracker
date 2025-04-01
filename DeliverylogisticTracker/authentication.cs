@@ -26,46 +26,53 @@ namespace DeliverylogisticTracker
             string password = Console.ReadLine();
             Console.WriteLine("+--------------------------------------------------------------------+");
 
-
-            using (var conn = database.GetConnection())
+            try
             {
-                conn.Open();
-                string query = "SELECT role FROM users WHERE email = @Email AND password = @Password";
-
-                MySqlCommand cmd = new MySqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@Email", email);
-                cmd.Parameters.AddWithValue("@Password", password);
-
-                object result = cmd.ExecuteScalar();
-                if (result != null)
+                using (var conn = database.GetConnection())
                 {
-                    string role = result.ToString();
-                    Console.WriteLine($"Login successful! Welcome {role}.");
-                    Console.WriteLine("Press Any key to enter!");
-                    Console.ReadKey();
+                    conn.Open();
+                    string query = "SELECT role FROM users WHERE email = @Email AND password = @Password";
 
-                    if (role == "Admin") choices.showAdminchoices();
-                    else if (role == "User") choices.showUserchoices(email);
-                    else if (role == "Driver") choices.showDriverchoices(email);
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@Email", email);
+                    cmd.Parameters.AddWithValue("@Password", password);
 
+                    object result = cmd.ExecuteScalar();
+                    if (result != null)
+                    {
+                        string role = result.ToString();
+                        Console.WriteLine($"Login successful! Welcome {role}.");
+                        Console.WriteLine("Press Any key to enter!");
+                        Console.ReadKey();
+
+                        if (role == "Admin") choices.showAdminchoices();
+                        else if (role == "User") choices.showUserchoices(email);
+                        else if (role == "Driver") choices.showDriverchoices(email);
+                    }
+                    else
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Invalid email or password.");
+                        Console.WriteLine("Press any key to try again...");
+                        Console.ReadKey();
+                    }
                 }
-                else
-                {
-                    Console.Clear();
-                    Console.WriteLine(@"
- ██▓ ███▄    █ ██▒   █▓ ▄▄▄       ██▓     ██▓▓█████▄    ▓█████  ███▄ ▄███▓ ▄▄▄       ██▓ ██▓        ▒█████   ██▀███      ██▓███   ▄▄▄        ██████   ██████  █     █░ ▒█████   ██▀███  ▓█████▄      
-▓██▒ ██ ▀█   █▓██░   █▒▒████▄    ▓██▒    ▓██▒▒██▀ ██▌   ▓█   ▀ ▓██▒▀█▀ ██▒▒████▄    ▓██▒▓██▒       ▒██▒  ██▒▓██ ▒ ██▒   ▓██░  ██▒▒████▄    ▒██    ▒ ▒██    ▒ ▓█░ █ ░█░▒██▒  ██▒▓██ ▒ ██▒▒██▀ ██▌     
-▒██▒▓██  ▀█ ██▒▓██  █▒░▒██  ▀█▄  ▒██░    ▒██▒░██   █▌   ▒███   ▓██    ▓██░▒██  ▀█▄  ▒██▒▒██░       ▒██░  ██▒▓██ ░▄█ ▒   ▓██░ ██▓▒▒██  ▀█▄  ░ ▓██▄   ░ ▓██▄   ▒█░ █ ░█ ▒██░  ██▒▓██ ░▄█ ▒░██   █▌     
-░██░▓██▒  ▐▌██▒ ▒██ █░░░██▄▄▄▄██ ▒██░    ░██░░▓█▄   ▌   ▒▓█  ▄ ▒██    ▒██ ░██▄▄▄▄██ ░██░▒██░       ▒██   ██░▒██▀▀█▄     ▒██▄█▓▒ ▒░██▄▄▄▄██   ▒   ██▒  ▒   ██▒░█░ █ ░█ ▒██   ██░▒██▀▀█▄  ░▓█▄   ▌     
-░██░▒██░   ▓██░  ▒▀█░   ▓█   ▓██▒░██████▒░██░░▒████▓    ░▒████▒▒██▒   ░██▒ ▓█   ▓██▒░██░░██████▒   ░ ████▓▒░░██▓ ▒██▒   ▒██▒ ░  ░ ▓█   ▓██▒▒██████▒▒▒██████▒▒░░██▒██▓ ░ ████▓▒░░██▓ ▒██▒░▒████▓  ██▓ 
-░▓  ░ ▒░   ▒ ▒   ░ ▐░   ▒▒   ▓▒█░░ ▒░▓  ░░▓   ▒▒▓  ▒    ░░ ▒░ ░░ ▒░   ░  ░ ▒▒   ▓▒█░░▓  ░ ▒░▓  ░   ░ ▒░▒░▒░ ░ ▒▓ ░▒▓░   ▒▓▒░ ░  ░ ▒▒   ▓▒█░▒ ▒▓▒ ▒ ░▒ ▒▓▒ ▒ ░░ ▓░▒ ▒  ░ ▒░▒░▒░ ░ ▒▓ ░▒▓░ ▒▒▓  ▒  ▒▓▒ 
- ▒ ░░ ░░   ░ ▒░  ░ ░░    ▒   ▒▒ ░░ ░ ▒  ░ ▒ ░ ░ ▒  ▒     ░ ░  ░░  ░      ░  ▒   ▒▒ ░ ▒ ░░ ░ ▒  ░     ░ ▒ ▒░   ░▒ ░ ▒░   ░▒ ░       ▒   ▒▒ ░░ ░▒  ░ ░░ ░▒  ░ ░  ▒ ░ ░    ░ ▒ ▒░   ░▒ ░ ▒░ ░ ▒  ▒  ░▒  
- ▒ ░   ░   ░ ░     ░░    ░   ▒     ░ ░    ▒ ░ ░ ░  ░       ░   ░      ░     ░   ▒    ▒ ░  ░ ░      ░ ░ ░ ▒    ░░   ░    ░░         ░   ▒   ░  ░  ░  ░  ░  ░    ░   ░  ░ ░ ░ ▒    ░░   ░  ░ ░  ░  ░   
- ░           ░      ░        ░  ░    ░  ░ ░     ░          ░  ░       ░         ░  ░ ░      ░  ░       ░ ░     ░                       ░  ░      ░        ░      ░        ░ ░     ░        ░      ░  
-                   ░                          ░                                                                                                                                          ░        ░  ");
-                    Console.WriteLine("Press any key to continue...");
-                    Console.ReadKey();
-                }
+            }
+            catch (MySqlException ex)
+            {
+                Console.Clear();
+                Console.WriteLine("An error occurred while connecting to the database.");
+                Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine("Press any key to continue...");
+                Console.ReadKey();
+            }
+            catch (Exception ex)
+            {
+                Console.Clear();
+                Console.WriteLine("An unexpected error occurred.");
+                Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine("Press any key to continue...");
+                Console.ReadKey();
             }
         }
 
@@ -90,41 +97,51 @@ namespace DeliverylogisticTracker
             string password = Console.ReadLine();
             Console.WriteLine("+------------------------------------------------------------------------+");
 
-
-            using (var conn = database.GetConnection())
+            try
             {
-                conn.Open();
-                string checkQuery = "SELECT COUNT(*) FROM users WHERE email = @Email";
-                MySqlCommand checkCmd = new MySqlCommand(checkQuery, conn);
-                checkCmd.Parameters.AddWithValue("@Email", email);
-
-                int count = Convert.ToInt32(checkCmd.ExecuteScalar());
-                if (count > 0)
+                using (var conn = database.GetConnection())
                 {
-                    Console.WriteLine("Email already exists.");
+                    conn.Open();
+                    string checkQuery = "SELECT COUNT(*) FROM users WHERE email = @Email";
+                    MySqlCommand checkCmd = new MySqlCommand(checkQuery, conn);
+                    checkCmd.Parameters.AddWithValue("@Email", email);
+
+                    int count = Convert.ToInt32(checkCmd.ExecuteScalar());
+                    if (count > 0)
+                    {
+                        Console.WriteLine("Email already exists.");
+                        Console.WriteLine("Press any key to continue...");
+                        Console.ReadKey();
+                        return;
+                    }
+
+                    string insertQuery = "INSERT INTO users (email, password, role) VALUES (@Email, @Password, 'User')";
+                    MySqlCommand cmd = new MySqlCommand(insertQuery, conn);
+                    cmd.Parameters.AddWithValue("@Email", email);
+                    cmd.Parameters.AddWithValue("@Password", password);
+
+                    cmd.ExecuteNonQuery();
+                    Console.Clear();
+                    Console.WriteLine("Registration successful!");
                     Console.WriteLine("Press any key to continue...");
                     Console.ReadKey();
-                    return;
                 }
-
-                string insertQuery = "INSERT INTO users (email, password, role) VALUES (@Email, @Password, 'User')";
-
-                MySqlCommand cmd = new MySqlCommand(insertQuery, conn);
-                cmd.Parameters.AddWithValue("@Email", email);
-                cmd.Parameters.AddWithValue("@Password", password);
-
-                cmd.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
                 Console.Clear();
-                Console.WriteLine(@"
- ██▀███  ▓█████   ▄████  ██▓  ██████ ▄▄▄█████▓ ██▀███   ▄▄▄     ▄▄▄█████▓ ██▓ ▒█████   ███▄    █      ██████  █    ██  ▄████▄   ▄████▄  ▓█████   ██████   ██████   █████▒█    ██  ██▓     ▐██▌ 
-▓██ ▒ ██▒▓█   ▀  ██▒ ▀█▒▓██▒▒██    ▒ ▓  ██▒ ▓▒▓██ ▒ ██▒▒████▄   ▓  ██▒ ▓▒▓██▒▒██▒  ██▒ ██ ▀█   █    ▒██    ▒  ██  ▓██▒▒██▀ ▀█  ▒██▀ ▀█  ▓█   ▀ ▒██    ▒ ▒██    ▒ ▓██   ▒ ██  ▓██▒▓██▒     ▐██▌ 
-▓██ ░▄█ ▒▒███   ▒██░▄▄▄░▒██▒░ ▓██▄   ▒ ▓██░ ▒░▓██ ░▄█ ▒▒██  ▀█▄ ▒ ▓██░ ▒░▒██▒▒██░  ██▒▓██  ▀█ ██▒   ░ ▓██▄   ▓██  ▒██░▒▓█    ▄ ▒▓█    ▄ ▒███   ░ ▓██▄   ░ ▓██▄   ▒████ ░▓██  ▒██░▒██░     ▐██▌ 
-▒██▀▀█▄  ▒▓█  ▄ ░▓█  ██▓░██░  ▒   ██▒░ ▓██▓ ░ ▒██▀▀█▄  ░██▄▄▄▄██░ ▓██▓ ░ ░██░▒██   ██░▓██▒  ▐▌██▒     ▒   ██▒▓▓█  ░██░▒▓▓▄ ▄██▒▒▓▓▄ ▄██▒▒▓█  ▄   ▒   ██▒  ▒   ██▒░▓█▒  ░▓▓█  ░██░▒██░     ▓██▒ 
-░██▓ ▒██▒░▒████▒░▒▓███▀▒░██░▒██████▒▒  ▒██▒ ░ ░██▓ ▒██▒ ▓█   ▓██▒ ▒██▒ ░ ░██░░ ████▓▒░▒██░   ▓██░   ▒██████▒▒▒▒█████▓ ▒ ▓███▀ ░▒ ▓███▀ ░░▒████▒▒██████▒▒▒██████▒▒░▒█░   ▒▒█████▓ ░██████▒ ▒▄▄  
-░ ▒▓ ░▒▓░░░ ▒░ ░ ░▒   ▒ ░▓  ▒ ▒▓▒ ▒ ░  ▒ ░░   ░ ▒▓ ░▒▓░ ▒▒   ▓▒█░ ▒ ░░   ░▓  ░ ▒░▒░▒░ ░ ▒░   ▒ ▒    ▒ ▒▓▒ ▒ ░░▒▓▒ ▒ ▒ ░ ░▒ ▒  ░░ ░▒ ▒  ░░░ ▒░ ░▒ ▒▓▒ ▒ ░▒ ▒▓▒ ▒ ░ ▒ ░   ░▒▓▒ ▒ ▒ ░ ▒░▓  ░ ░▀▀▒ 
-  ░▒ ░ ▒░ ░ ░  ░  ░   ░  ▒ ░░ ░▒  ░ ░    ░      ░▒ ░ ▒░  ▒   ▒▒ ░   ░     ▒ ░  ░ ▒ ▒░ ░ ░░   ░ ▒░   ░ ░▒  ░ ░░░▒░ ░ ░   ░  ▒     ░  ▒    ░ ░  ░░ ░▒  ░ ░░ ░▒  ░ ░ ░     ░░▒░ ░ ░ ░ ░ ▒  ░ ░  ░ 
-  ░░   ░    ░   ░ ░   ░  ▒ ░░  ░  ░    ░        ░░   ░   ░   ▒    ░       ▒ ░░ ░ ░ ▒     ░   ░ ░    ░  ░  ░   ░░░ ░ ░ ░        ░           ░   ░  ░  ░  ░  ░  ░   ░ ░    ░░░ ░ ░   ░ ░       ░ 
-   ░        ░  ░      ░  ░        ░              ░           ░  ░         ░      ░ ░           ░          ░     ░     ░ ░      ░ ░         ░  ░      ░        ░            ░         ░  ░ ░    ");
+                Console.WriteLine("An error occurred while connecting to the database.");
+                Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine("Press any key to continue...");
+                Console.ReadKey();
+            }
+            catch (Exception ex)
+            {
+                Console.Clear();
+                Console.WriteLine("An unexpected error occurred.");
+                Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine("Press any key to continue...");
+                Console.ReadKey();
             }
         }
     }

@@ -192,8 +192,8 @@ namespace DeliverylogisticTracker
                                           .logo-center {{
                                               display: block;
                                               margin: 0 auto 10px;
-                                              width: 40px;
-                                              height: 40px;
+                                              width: 50px;
+                                              height: 50px;
                                           }}
                                           .footer {{
                                               font-size: 9px;
@@ -311,7 +311,7 @@ namespace DeliverylogisticTracker
                 if (!string.IsNullOrEmpty(newPassword)) updateCmd.Parameters.AddWithValue("@NewPassword", newPassword);
 
                 updateCmd.ExecuteNonQuery();
-                Console.WriteLine("Personnel updated successfully.");
+                Console.WriteLine("🎉 Personnel Updated Successfully 🎉");
 
                 string htmlBody = $@"
                                     <html>
@@ -352,8 +352,8 @@ namespace DeliverylogisticTracker
                                           .logo-center {{
                                               display: block;
                                               margin: 0 auto 10px;
-                                              width: 40px;
-                                              height: 40px;
+                                              width: 50px;
+                                              height: 50px;
                                           }}
                                           .footer {{
                                               font-size: 9px;
@@ -454,7 +454,7 @@ namespace DeliverylogisticTracker
 
                 Console.WriteLine("Personnel deleted successfully.");
 
-                string subject = "Personnel Account Deleted";
+                string subject = "🎉 Personnel Account Deleted 🎉";
 
                 string htmlBody = $@"
                                     <html>
@@ -493,8 +493,8 @@ namespace DeliverylogisticTracker
                                             .logo-center {{
                                                 display: block;
                                                 margin: 0 auto 10px;
-                                                width: 40px;
-                                                height: 40px;
+                                                width: 50px;
+                                                height: 50px;
                                             }}
                                             .footer {{
                                                 font-size: 9px;
@@ -514,7 +514,7 @@ namespace DeliverylogisticTracker
                                             <div class='content-box'>
                                                 <img src='https://drive.google.com/uc?export=view&id=12_sG-vxVf6cJ4wJQ2zCfdgxu-QxuAUy5' class='logo-center' alt='#'>
                                                 <p>Your personnel account has been removed from the system.</p>
-                                                <p><strong>Email:</strong> {email}</p>
+                                                <p><strong>📛 Name:</strong> {email}</p>
                                                 <p>If this was a mistake, please contact the administrator.</p>
                                                 <p>Thank you.</p>
                                             </div>
